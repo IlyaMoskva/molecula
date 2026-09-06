@@ -6,6 +6,8 @@ export interface SelectionTrayProps {
   readonly onRemove: (symbol: ElementSymbol) => void;
   readonly onUndo: () => void;
   readonly onClear: () => void;
+  readonly clearLabel?: string;
+  readonly showClear?: boolean;
 }
 
 export function SelectionTray({
@@ -14,6 +16,8 @@ export function SelectionTray({
   onRemove,
   onUndo,
   onClear,
+  clearLabel = 'Очистить',
+  showClear = true,
 }: SelectionTrayProps) {
   const selected = (
     Object.entries(composition) as [ElementSymbol, number][]
@@ -34,6 +38,7 @@ export function SelectionTray({
                 className="selection-chip"
                 key={symbol}
                 type="button"
+                disabled={!canUndo}
                 aria-label={`Убрать один атом ${symbol}`}
                 onClick={() => {
                   onRemove(symbol);
@@ -56,14 +61,16 @@ export function SelectionTray({
         >
           Отменить
         </button>
-        <button
-          type="button"
-          className="text-button danger"
-          disabled={!canUndo}
-          onClick={onClear}
-        >
-          Очистить
-        </button>
+        {showClear ? (
+          <button
+            type="button"
+            className="text-button danger"
+            disabled={!canUndo}
+            onClick={onClear}
+          >
+            {clearLabel}
+          </button>
+        ) : null}
       </div>
     </section>
   );

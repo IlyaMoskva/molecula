@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ConstructorPage } from './ConstructorPage';
+import { TrainingPage } from './TrainingPage';
 
 type Destination = 'constructor' | 'training';
 
@@ -40,17 +41,7 @@ export function App() {
         </nav>
       </header>
 
-      {destination === 'constructor' ? (
-        <ConstructorPage />
-      ) : (
-        <main id="main" className="training-placeholder">
-          <p className="eyebrow">Следующий этап</p>
-          <h1>Тренировка скоро появится</h1>
-          <p>
-            Здесь можно будет собирать молекулы по заданию и проверять себя.
-          </p>
-        </main>
-      )}
+      {destination === 'constructor' ? <ConstructorPage /> : <TrainingPage />}
 
       <nav className="mobile-nav" aria-label="Основная навигация">
         {destinations.map((item) => (

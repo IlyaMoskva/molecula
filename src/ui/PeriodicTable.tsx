@@ -6,6 +6,7 @@ import type { Element } from '../domain/molecule';
 export interface PeriodicTableProps {
   readonly onSelect: (symbol: ElementSymbol) => void;
   readonly selectedCounts: Readonly<Partial<Record<ElementSymbol, number>>>;
+  readonly interactionDisabled?: boolean;
 }
 
 const supportedElements: ReadonlyMap<ElementSymbol, Element> = new Map(
@@ -15,6 +16,7 @@ const supportedElements: ReadonlyMap<ElementSymbol, Element> = new Map(
 export function PeriodicTable({
   onSelect,
   selectedCounts,
+  interactionDisabled = false,
 }: PeriodicTableProps) {
   return (
     <section className="periodic-section" aria-labelledby="periodic-title">
@@ -51,7 +53,9 @@ export function PeriodicTable({
               gridRow: element.row,
             };
             const description = supported
-              ? `${supported.names.ru}, ${element.symbol}, атомный номер ${String(element.atomicNumber)}, добавить атом`
+              ? interactionDisabled
+                ? `${supported.names.ru}, ${element.symbol}, задание завершено`
+                : `${supported.names.ru}, ${element.symbol}, атомный номер ${String(element.atomicNumber)}, добавить атом`
               : `${element.symbol}, атомный номер ${String(element.atomicNumber)}, пока недоступен`;
 
             return (
@@ -62,7 +66,7 @@ export function PeriodicTable({
                 }
                 style={style}
                 type="button"
-                disabled={!supported}
+                disabled={!supported || interactionDisabled}
                 aria-label={description}
                 onClick={() => {
                   onSelect(element.symbol);

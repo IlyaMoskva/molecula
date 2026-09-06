@@ -68,7 +68,7 @@ describe('molecule constructor', () => {
     expect(trainingButton).toBeDefined();
     if (trainingButton) fireEvent.click(trainingButton);
     expect(
-      screen.getByRole('heading', { name: 'Тренировка скоро появится' }),
+      screen.getByRole('heading', { name: 'Соберите воду' }),
     ).toBeInTheDocument();
   });
 });
