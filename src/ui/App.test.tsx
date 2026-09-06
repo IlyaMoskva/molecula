@@ -14,6 +14,7 @@ describe('molecule constructor', () => {
     add(/Водород, H, атомный номер 1, добавить атом/, 2);
     add(/Кислород, O, атомный номер 8, добавить атом/);
 
+    expect(screen.getByText('Вещество найдено')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'H2O' })).toBeInTheDocument();
     expect(screen.getByText('Вода')).toBeInTheDocument();
     expect(screen.getByText('Выбрано: H ×2, O ×1')).toBeInTheDocument();
@@ -46,7 +47,7 @@ describe('molecule constructor', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Очистить' }));
     expect(
-      screen.getByRole('heading', { name: 'Собери молекулу' }),
+      screen.getByRole('heading', { name: 'Собери вещество' }),
     ).toBeInTheDocument();
   });
 

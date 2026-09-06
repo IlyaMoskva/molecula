@@ -29,7 +29,7 @@ export function MoleculeResult({
           <span />
         </div>
         <p className="eyebrow">Начни исследование</p>
-        <h1>Собери молекулу</h1>
+        <h1>Собери вещество</h1>
         <p>
           Нажимай на доступные элементы в таблице — выбранные атомы появятся
           здесь.
@@ -57,7 +57,7 @@ export function MoleculeResult({
   return (
     <section className="result-card result-known" aria-live="polite">
       <div className="result-copy">
-        <p className="eyebrow">Молекула найдена</p>
+        <p className="eyebrow">Вещество найдено</p>
         <h1>
           <Formula value={molecule.formula} />
         </h1>
