@@ -16,6 +16,8 @@ export interface MoleculeAtom {
   readonly element: ElementSymbol;
   readonly x: number;
   readonly y: number;
+  /** Formal ionic charge; omitted for a neutral atom. */
+  readonly charge?: number;
 }
 
 export type BondOrder = 1 | 2 | 3;

@@ -11,11 +11,13 @@ const atom = (
   element: ElementSymbol,
   x: number,
   y: number,
+  charge?: number,
 ): MoleculeAtom => ({
   id,
   element,
   x,
   y,
+  ...(charge === undefined ? {} : { charge }),
 });
 
 const bond = (from: string, to: string, order: BondOrder = 1): Bond => ({
@@ -134,8 +136,8 @@ export const molecules = [
     formula: 'NaCl',
     names: { ru: 'Хлорид натрия', en: 'Sodium chloride' },
     composition: { Na: 1, Cl: 1 },
-    atoms: [atom('na1', 'Na', -52, 0), atom('cl1', 'Cl', 52, 0)],
-    bonds: [bond('na1', 'cl1')],
+    atoms: [atom('na1', 'Na', -52, 0, 1), atom('cl1', 'Cl', 52, 0, -1)],
+    bonds: [],
   },
   {
     id: 'hydrogen-peroxide',

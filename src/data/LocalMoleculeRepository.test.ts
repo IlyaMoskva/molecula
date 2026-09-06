@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Molecule } from '../domain/molecule';
+import { knowledgeBaseElementSymbols } from './elements';
 import { LocalMoleculeRepository } from './LocalMoleculeRepository';
 import { molecules } from './molecules';
 import { validateMolecules } from './validateMolecules';
@@ -38,6 +39,18 @@ describe('LocalMoleculeRepository', () => {
 });
 
 describe('curated molecule data', () => {
+  it('keeps current knowledge-base support separate from all domain elements', () => {
+    expect(knowledgeBaseElementSymbols).toEqual([
+      'H',
+      'C',
+      'N',
+      'O',
+      'Na',
+      'S',
+      'Cl',
+    ]);
+  });
+
   it('contains every molecule required for the initial knowledge base', () => {
     expect(molecules.map(({ formula }) => formula)).toEqual([
       'H2',
@@ -74,6 +87,18 @@ describe('curated molecule data', () => {
         { from: 'o1', to: 'c1', order: 2 },
         { from: 'c1', to: 'o2', order: 2 },
       ],
+    });
+  });
+
+  it('represents sodium chloride as an ionic pair without a covalent bond', () => {
+    const sodiumChloride = molecules.find(({ id }) => id === 'sodium-chloride');
+
+    expect(sodiumChloride).toMatchObject({
+      atoms: [
+        { element: 'Na', charge: 1 },
+        { element: 'Cl', charge: -1 },
+      ],
+      bonds: [],
     });
   });
 

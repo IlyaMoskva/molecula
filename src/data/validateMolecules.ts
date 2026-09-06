@@ -91,6 +91,14 @@ export function validateMolecules(
           `${molecule.id}: atom ${moleculeAtom.id} has invalid coordinates`,
         );
       }
+      if (
+        moleculeAtom.charge !== undefined &&
+        !Number.isSafeInteger(moleculeAtom.charge)
+      ) {
+        errors.push(
+          `${molecule.id}: atom ${moleculeAtom.id} has an invalid charge`,
+        );
+      }
     }
 
     const atomCompositionKey = normalizeComposition(

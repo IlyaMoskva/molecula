@@ -1,7 +1,20 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeAtoms, normalizeComposition } from './composition';
+import {
+  elementSymbols,
+  normalizeAtoms,
+  normalizeComposition,
+} from './composition';
 
 describe('canonical atom composition', () => {
+  it('defines every currently named chemical element symbol exactly once', () => {
+    expect(elementSymbols).toHaveLength(118);
+    expect(new Set(elementSymbols).size).toBe(118);
+  });
+
+  it('supports elements outside the initial knowledge base', () => {
+    expect(normalizeAtoms(['Xe', 'F', 'F'])).toBe('F:2|Xe:1');
+  });
+
   it.each([
     ['H, H, O', ['H', 'H', 'O'] as const],
     ['O, H, H', ['O', 'H', 'H'] as const],
