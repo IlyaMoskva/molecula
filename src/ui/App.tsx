@@ -14,6 +14,9 @@ export function App() {
 
   return (
     <div className="app-shell">
+      <a className="skip-link" href="#main">
+        К основному содержимому
+      </a>
       <header className="topbar">
         <a className="brand" href="#main" aria-label="Молекула — на главную">
           <span className="brand-mark" aria-hidden="true">
