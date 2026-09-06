@@ -1,18 +1,33 @@
-/** A chemical element's standard symbol, for example H or Na. */
-export type ElementSymbol = string;
+/** Element symbols supported by the initial curated learning content. */
+export const elementSymbols = ['H', 'O', 'N', 'Cl', 'C', 'Na', 'S'] as const;
+
+export type ElementSymbol = (typeof elementSymbols)[number];
 
 /** Atom counts indexed by element symbol. Zero counts are allowed at boundaries. */
-export type AtomComposition = Readonly<Record<ElementSymbol, number>>;
+export type AtomComposition = Readonly<Partial<Record<ElementSymbol, number>>>;
+
+export function isValidAtomCount(count: number): boolean {
+  return Number.isSafeInteger(count) && count >= 0;
+}
 
 export function countAtoms(symbols: readonly ElementSymbol[]): AtomComposition {
-  return symbols.reduce<Record<ElementSymbol, number>>((counts, symbol) => {
+  const counts: Partial<Record<ElementSymbol, number>> = {};
+
+  for (const symbol of symbols) {
     counts[symbol] = (counts[symbol] ?? 0) + 1;
-    return counts;
-  }, {});
+  }
+
+  return counts;
 }
 
 export function normalizeComposition(composition: AtomComposition): string {
-  return Object.entries(composition)
+  const entries = Object.entries(composition) as [ElementSymbol, number][];
+
+  if (entries.some(([, count]) => !isValidAtomCount(count))) {
+    throw new RangeError('Atom counts must be non-negative safe integers');
+  }
+
+  return entries
     .filter(([, count]) => count > 0)
     .sort(([left], [right]) => left.localeCompare(right, 'en'))
     .map(([symbol, count]) => `${symbol}:${String(count)}`)

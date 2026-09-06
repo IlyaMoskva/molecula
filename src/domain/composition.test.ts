@@ -3,9 +3,9 @@ import { normalizeAtoms, normalizeComposition } from './composition';
 
 describe('canonical atom composition', () => {
   it.each([
-    ['H, H, O', ['H', 'H', 'O']],
-    ['O, H, H', ['O', 'H', 'H']],
-    ['H, O, H', ['H', 'O', 'H']],
+    ['H, H, O', ['H', 'H', 'O'] as const],
+    ['O, H, H', ['O', 'H', 'H'] as const],
+    ['H, O, H', ['H', 'O', 'H'] as const],
   ])('is independent of click order: %s', (_label, atoms) => {
     expect(normalizeAtoms(atoms)).toBe('H:2|O:1');
   });
@@ -29,4 +29,11 @@ describe('canonical atom composition', () => {
   it('discards zero counts', () => {
     expect(normalizeComposition({ H: 2, O: 0 })).toBe('H:2');
   });
+
+  it.each([-1, 1.5, Number.NaN])(
+    'rejects an invalid atom count: %s',
+    (count) => {
+      expect(() => normalizeComposition({ H: count })).toThrow(RangeError);
+    },
+  );
 });

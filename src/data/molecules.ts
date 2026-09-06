@@ -1,0 +1,190 @@
+import type { ElementSymbol } from '../domain/composition';
+import type {
+  Bond,
+  BondOrder,
+  Molecule,
+  MoleculeAtom,
+} from '../domain/molecule';
+
+const atom = (
+  id: string,
+  element: ElementSymbol,
+  x: number,
+  y: number,
+): MoleculeAtom => ({
+  id,
+  element,
+  x,
+  y,
+});
+
+const bond = (from: string, to: string, order: BondOrder = 1): Bond => ({
+  from,
+  to,
+  order,
+});
+
+export const molecules = [
+  {
+    id: 'hydrogen',
+    formula: 'H2',
+    names: { ru: 'Водород', en: 'Hydrogen' },
+    composition: { H: 2 },
+    atoms: [atom('h1', 'H', -45, 0), atom('h2', 'H', 45, 0)],
+    bonds: [bond('h1', 'h2')],
+  },
+  {
+    id: 'oxygen',
+    formula: 'O2',
+    names: { ru: 'Кислород', en: 'Oxygen' },
+    composition: { O: 2 },
+    atoms: [atom('o1', 'O', -45, 0), atom('o2', 'O', 45, 0)],
+    bonds: [bond('o1', 'o2', 2)],
+  },
+  {
+    id: 'nitrogen',
+    formula: 'N2',
+    names: { ru: 'Азот', en: 'Nitrogen' },
+    composition: { N: 2 },
+    atoms: [atom('n1', 'N', -45, 0), atom('n2', 'N', 45, 0)],
+    bonds: [bond('n1', 'n2', 3)],
+  },
+  {
+    id: 'chlorine',
+    formula: 'Cl2',
+    names: { ru: 'Хлор', en: 'Chlorine' },
+    composition: { Cl: 2 },
+    atoms: [atom('cl1', 'Cl', -50, 0), atom('cl2', 'Cl', 50, 0)],
+    bonds: [bond('cl1', 'cl2')],
+  },
+  {
+    id: 'water',
+    formula: 'H2O',
+    names: { ru: 'Вода', en: 'Water' },
+    composition: { H: 2, O: 1 },
+    atoms: [
+      atom('o1', 'O', 0, 0),
+      atom('h1', 'H', -62, 48),
+      atom('h2', 'H', 62, 48),
+    ],
+    bonds: [bond('o1', 'h1'), bond('o1', 'h2')],
+  },
+  {
+    id: 'carbon-dioxide',
+    formula: 'CO2',
+    names: { ru: 'Углекислый газ', en: 'Carbon dioxide' },
+    composition: { C: 1, O: 2 },
+    atoms: [
+      atom('o1', 'O', -85, 0),
+      atom('c1', 'C', 0, 0),
+      atom('o2', 'O', 85, 0),
+    ],
+    bonds: [bond('o1', 'c1', 2), bond('c1', 'o2', 2)],
+  },
+  {
+    id: 'carbon-monoxide',
+    formula: 'CO',
+    names: { ru: 'Угарный газ', en: 'Carbon monoxide' },
+    composition: { C: 1, O: 1 },
+    atoms: [atom('c1', 'C', -45, 0), atom('o1', 'O', 45, 0)],
+    bonds: [bond('c1', 'o1', 3)],
+  },
+  {
+    id: 'ammonia',
+    formula: 'NH3',
+    names: { ru: 'Аммиак', en: 'Ammonia' },
+    composition: { N: 1, H: 3 },
+    atoms: [
+      atom('n1', 'N', 0, 0),
+      atom('h1', 'H', 0, -72),
+      atom('h2', 'H', -68, 48),
+      atom('h3', 'H', 68, 48),
+    ],
+    bonds: [bond('n1', 'h1'), bond('n1', 'h2'), bond('n1', 'h3')],
+  },
+  {
+    id: 'methane',
+    formula: 'CH4',
+    names: { ru: 'Метан', en: 'Methane' },
+    composition: { C: 1, H: 4 },
+    atoms: [
+      atom('c1', 'C', 0, 0),
+      atom('h1', 'H', 0, -80),
+      atom('h2', 'H', 80, 0),
+      atom('h3', 'H', 0, 80),
+      atom('h4', 'H', -80, 0),
+    ],
+    bonds: [
+      bond('c1', 'h1'),
+      bond('c1', 'h2'),
+      bond('c1', 'h3'),
+      bond('c1', 'h4'),
+    ],
+  },
+  {
+    id: 'hydrogen-chloride',
+    formula: 'HCl',
+    names: { ru: 'Хлороводород', en: 'Hydrogen chloride' },
+    composition: { H: 1, Cl: 1 },
+    atoms: [atom('h1', 'H', -50, 0), atom('cl1', 'Cl', 50, 0)],
+    bonds: [bond('h1', 'cl1')],
+  },
+  {
+    id: 'sodium-chloride',
+    formula: 'NaCl',
+    names: { ru: 'Хлорид натрия', en: 'Sodium chloride' },
+    composition: { Na: 1, Cl: 1 },
+    atoms: [atom('na1', 'Na', -52, 0), atom('cl1', 'Cl', 52, 0)],
+    bonds: [bond('na1', 'cl1')],
+  },
+  {
+    id: 'hydrogen-peroxide',
+    formula: 'H2O2',
+    names: { ru: 'Перекись водорода', en: 'Hydrogen peroxide' },
+    composition: { H: 2, O: 2 },
+    atoms: [
+      atom('h1', 'H', -110, 34),
+      atom('o1', 'O', -42, 0),
+      atom('o2', 'O', 42, 0),
+      atom('h2', 'H', 110, -34),
+    ],
+    bonds: [bond('h1', 'o1'), bond('o1', 'o2'), bond('o2', 'h2')],
+  },
+  {
+    id: 'sulfur-dioxide',
+    formula: 'SO2',
+    names: { ru: 'Диоксид серы', en: 'Sulfur dioxide' },
+    composition: { S: 1, O: 2 },
+    atoms: [
+      atom('s1', 'S', 0, 22),
+      atom('o1', 'O', -72, -35),
+      atom('o2', 'O', 72, -35),
+    ],
+    bonds: [bond('s1', 'o1', 2), bond('s1', 'o2', 2)],
+  },
+  {
+    id: 'sulfur-trioxide',
+    formula: 'SO3',
+    names: { ru: 'Триоксид серы', en: 'Sulfur trioxide' },
+    composition: { S: 1, O: 3 },
+    atoms: [
+      atom('s1', 'S', 0, 0),
+      atom('o1', 'O', 0, -82),
+      atom('o2', 'O', -74, 45),
+      atom('o3', 'O', 74, 45),
+    ],
+    bonds: [bond('s1', 'o1', 2), bond('s1', 'o2', 2), bond('s1', 'o3', 2)],
+  },
+  {
+    id: 'nitrogen-dioxide',
+    formula: 'NO2',
+    names: { ru: 'Диоксид азота', en: 'Nitrogen dioxide' },
+    composition: { N: 1, O: 2 },
+    atoms: [
+      atom('n1', 'N', 0, 24),
+      atom('o1', 'O', -70, -38),
+      atom('o2', 'O', 70, -38),
+    ],
+    bonds: [bond('n1', 'o1', 2), bond('n1', 'o2')],
+  },
+] as const satisfies readonly Molecule[];
