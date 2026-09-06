@@ -4,3 +4,5 @@ coverage
 .vite
 *.local
 *.log
+playwright-report
+test-results
