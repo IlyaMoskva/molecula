@@ -49,12 +49,20 @@ E2E-набор автоматически собирает приложение,
 
 ## Production-сборка
 
+Production-версия опубликована на GitHub Pages: [https://ilyamoskva.github.io/molecula/](https://ilyamoskva.github.io/molecula/).
+
 ```bash
 npm run build
 npm run preview
 ```
 
 Сборка появляется в `dist/`. Вместе с приложением генерируются `manifest.webmanifest`, `sw.js`, Workbox runtime и precache всех ресурсов application shell, включая локальную базу веществ.
+
+## Деплой на GitHub Pages
+
+Отдельный workflow `Deploy GitHub Pages` запускается после каждого push в `master` или вручную через `workflow_dispatch`. Он устанавливает зависимости через `npm ci`, собирает приложение и передаёт GitHub Pages только каталог `dist/`; generated-файлы в репозиторий не коммитятся.
+
+Репозиторий должен использовать **Settings → Pages → Build and deployment → Source: GitHub Actions**. Production-сборка и PWA работают с базовым путём `/molecula/`, включая manifest, иконки, service worker и offline navigation fallback.
 
 ## Ручная проверка PWA и офлайн-режима
 

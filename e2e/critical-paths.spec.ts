@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 
 interface WebAppManifest {
   readonly icons: readonly {
+    readonly src: string;
     readonly sizes: string;
     readonly type: string;
     readonly purpose?: string;
@@ -22,7 +23,7 @@ async function openTraining(page: Page) {
 test('constructor and training complete the critical water flows', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('./');
   await expect(
     page.getByRole('heading', { name: 'Собери вещество' }),
   ).toBeVisible();
@@ -50,8 +51,13 @@ test('installed application shell reloads and works offline', async ({
   page,
   context,
 }) => {
-  await page.goto('/');
+  await page.goto('./');
   await page.evaluate(async () => navigator.serviceWorker.ready);
+  await expect
+    .poll(() =>
+      page.evaluate(async () => (await navigator.serviceWorker.ready).scope),
+    )
+    .toBe('http://127.0.0.1:4173/molecula/');
   await expect
     .poll(() => page.evaluate(async () => (await caches.keys()).length))
     .toBeGreaterThan(0);
@@ -72,7 +78,7 @@ test('installed application shell reloads and works offline', async ({
 test('critical constructor controls are usable from the keyboard', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('./');
   await page.keyboard.press('Tab');
   const skipLink = page.getByRole('link', { name: 'К основному содержимому' });
   await expect(skipLink).toBeVisible();
@@ -96,16 +102,16 @@ test('critical constructor controls are usable from the keyboard', async ({
 test('manifest exposes installable application metadata and icons', async ({
   request,
 }) => {
-  const response = await request.get('/manifest.webmanifest');
+  const response = await request.get('./manifest.webmanifest');
   expect(response.ok()).toBeTruthy();
   const manifest = JSON.parse(await response.text()) as WebAppManifest;
   expect(manifest).toMatchObject({
     name: 'Молекула',
     display: 'standalone',
-    id: '/',
+    id: '/molecula/',
     lang: 'ru',
-    start_url: '/',
-    scope: '/',
+    start_url: '/molecula/',
+    scope: '/molecula/',
   });
   expect(manifest.icons).toEqual(
     expect.arrayContaining([
@@ -114,11 +120,19 @@ test('manifest exposes installable application metadata and icons', async ({
       expect.objectContaining({ sizes: '512x512', purpose: 'maskable' }),
     ]),
   );
+  expect(manifest.icons.every(({ src }) => src.startsWith('/molecula/'))).toBe(
+    true,
+  );
+
+  const documentResponse = await request.get('./');
+  const document = await documentResponse.text();
+  expect(document).not.toContain('/src/main.tsx');
+  expect(document).not.toMatch(/(?:src|href)="\/(?!molecula\/)/);
 
   for (const iconPath of [
-    '/pwa-192.png',
-    '/pwa-512.png',
-    '/pwa-maskable-512.png',
+    './pwa-192.png',
+    './pwa-512.png',
+    './pwa-maskable-512.png',
   ]) {
     const iconResponse = await request.get(iconPath);
     expect(iconResponse.ok()).toBeTruthy();

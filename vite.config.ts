@@ -2,7 +2,10 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 
+const basePath = '/molecula/';
+
 export default defineConfig({
+  base: basePath,
   plugins: [
     react(),
     VitePWA({
@@ -15,32 +18,32 @@ export default defineConfig({
         theme_color: '#315c4d',
         background_color: '#f7f4ed',
         display: 'standalone',
-        id: '/',
-        start_url: '/',
-        scope: '/',
+        id: basePath,
+        start_url: basePath,
+        scope: basePath,
         orientation: 'any',
         categories: ['education'],
         icons: [
           {
-            src: '/pwa-192.png',
+            src: `${basePath}pwa-192.png`,
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/pwa-512.png',
+            src: `${basePath}pwa-512.png`,
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any',
           },
           {
-            src: '/pwa-maskable-512.png',
+            src: `${basePath}pwa-maskable-512.png`,
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/molecula.svg',
+            src: `${basePath}molecula.svg`,
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'any',
@@ -48,9 +51,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Manifest icons are added by vite-plugin-pwa; keep the shell glob focused
-        // on application assets so every icon has a single precache entry.
-        globPatterns: ['**/*.{js,css,html,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
         navigateFallback: 'index.html',
         cleanupOutdatedCaches: true,
         clientsClaim: true,
