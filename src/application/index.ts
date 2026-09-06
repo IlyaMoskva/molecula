@@ -1,2 +1,8 @@
-// Application use cases will be introduced in the next delivery slices.
-export {};
+export {
+  atomSelectionReducer,
+  emptyAtomSelection,
+  getSelectionComposition,
+  resolveSelection,
+  type AtomSelection,
+  type AtomSelectionAction,
+} from './atomSelection';
